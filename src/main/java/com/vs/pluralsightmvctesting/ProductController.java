@@ -16,18 +16,18 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable Integer id) {
-        return productService.findById(id);
+    public ResponseEntity<?> getProductById(@PathVariable Integer id) {
+        return ResponseEntity.ok(productService.findById(id));
     }
 
     @GetMapping()
-    public List<Product> getProduct() {
+    public List<Product> getAllProducts() {
         return productService.findAll();
     }
 
     @PostMapping()
-    public void getProduct(@RequestBody Product product) {
-        productService.save(product);
+    public ResponseEntity<?> addProduct(@RequestBody Product product) {
+        Product p = productService.save(product);
+        return p != null ? ResponseEntity.ok(productService.save(product)) : ResponseEntity.badRequest().body("Error");
     }
-
 }

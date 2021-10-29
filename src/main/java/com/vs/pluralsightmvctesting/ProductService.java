@@ -12,11 +12,12 @@ public class ProductService {
     ProductRepository productRepository;
 
     public Product findById(Integer id) {
-        productRepository.findById(id);
+        return productRepository.findById(id).orElse(null);
     }
 
-    public void save(Product product) {
-        productRepository.save(product);
+    public Product save(Product product) {
+        if (product.getId() == null) product.setVersion(1);
+        return productRepository.save(product);
     }
 
     public List<Product> findAll() {
