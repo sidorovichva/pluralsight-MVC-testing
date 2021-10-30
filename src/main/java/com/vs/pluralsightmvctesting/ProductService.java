@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -22,6 +23,10 @@ public class ProductService {
 
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    public List<Product> getAllEqualsOrMoreThan(Integer x) {
+        return productRepository.findAll().stream().filter(y -> y.getQuantity() >= x).collect(Collectors.toList());
     }
 
 }
