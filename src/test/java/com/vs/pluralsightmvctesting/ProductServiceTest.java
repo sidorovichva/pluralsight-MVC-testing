@@ -2,9 +2,6 @@ package com.vs.pluralsightmvctesting;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.ConvertWith;
-import org.junit.jupiter.params.provider.CsvFileSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -80,16 +77,20 @@ class ProductServiceTest {
             );
         }
 
-        @ParameterizedTest
-        @CsvFileSource(resources = "/products.csv")
-        @DisplayName("if there are no products in a list")
-        void findAll3(Product product) {
-            Mockito.doReturn(product).when(repository).findAll();
+        @RepeatedTest(5)
+        @DisplayName("updating")
+        void findAll3(RepetitionInfo rep) {
+            for (int i = 0; i < rep.getCurrentRepetition(); i++) {
+                Mockito.doReturn(
+                        new Product(i, Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt())
+                ).when(repository).findAll();
 
-            List<Product> products = service.findAll();
-            assertAll(
-                    () -> assertEquals(1, products.size(), "number of products in the list")
-            );
+                List<Product> products = service.findAll();
+                int number = i;
+                assertAll(
+                        () -> assertEquals(number + 2, products.get(0).getId(), "number of products in the list")
+                );
+            }
         }
     }
 
