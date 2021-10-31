@@ -27,7 +27,8 @@ public class ProductController {
 
     @PostMapping()
     public ResponseEntity<?> addProduct(@RequestBody Product product) {
-        Product p = productService.save(product);
-        return p != null ? ResponseEntity.ok(productService.save(product)) : ResponseEntity.badRequest().body("Error");
+        return ResponseEntity.ok().body(productService.save(product));
+        /*Product p = productService.save(product);
+        return p != null ? ResponseEntity.ok().body(p) : ResponseEntity.badRequest().body("Error");*/
     }
 }
