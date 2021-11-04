@@ -8,13 +8,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest //@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE); //mock by default
 @DisplayName("Product Service should")
+//@Transactional not necessary
 class ProductServiceTest {
 
     @Autowired
@@ -79,6 +81,7 @@ class ProductServiceTest {
 
         @RepeatedTest(5)
         @DisplayName("updating")
+        @Disabled
         void findAll3(RepetitionInfo rep) {
             for (int i = 0; i < rep.getCurrentRepetition(); i++) {
                 Mockito.doReturn(

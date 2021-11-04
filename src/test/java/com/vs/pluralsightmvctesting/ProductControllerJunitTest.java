@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayName("Given Product Controller")
-class ProductControllerTest {
+class ProductControllerJunitTest {
 
     @MockBean
     private ProductService service;
