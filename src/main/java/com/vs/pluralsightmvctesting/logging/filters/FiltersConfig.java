@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-@Configuration
+//@Configuration
 public class FiltersConfig {
 
-    @Bean
+    /*@Bean
     FilterRegistrationBean<RequestResponseLoggers> createLoggers(RequestResponseLoggers requestResponseLoggers) {
         FilterRegistrationBean<RequestResponseLoggers> registrationBean = new FilterRegistrationBean<>();
 
@@ -17,5 +17,5 @@ public class FiltersConfig {
         registrationBean.addUrlPatterns("/products");
 
         return registrationBean;
-    }
+    }*/
 }
