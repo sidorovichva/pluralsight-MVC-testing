@@ -1,12 +1,14 @@
 package com.vs.pluralsightmvctesting.logging.filters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vs.pluralsightmvctesting.Product;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -19,22 +21,36 @@ import java.io.IOException;
 @Component
 @Order(1)
 public class RequestResponseLoggers implements Filter {
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         //MyCustomHttpRequestWrapper httpServletRequest = new MyCustomHttpRequestWrapper((HttpServletRequest) servletRequest);
 
-        byte[] byteArray = httpServletRequest.getInputStream().readAllBytes();
-
         log.info("Request URI: {}", httpServletRequest.getRequestURI());
         log.info("Request Method: {}", httpServletRequest.getMethod());
-        log.info("Request Body: {}", new String(byteArray));
+
+        byte[] byteArray = httpServletRequest.getInputStream().readAllBytes();
+
+        String requestBody = new String(byteArray);
+        Product product = objectMapper.readValue(requestBody, Product.class);
+        product.setName("***");
+        requestBody = objectMapper.writeValueAsString(product);
+
+        log.info("Request Body: {}", requestBody);
+
         //log.info("Request Body: {}", new String(httpServletRequest.getByteArray()));
 
-        filterChain.doFilter(servletRequest, servletResponse);
-        //filterChain.doFilter(httpServletRequest, servletResponse);
+        //MyCustomHttpResponseWrapper responseWrapper = new MyCustomHttpResponseWrapper((HttpServletRequest) servletResponse);
+
+        filterChain.doFilter(httpServletRequest, servletResponse);
 
         //HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
     }
+
+
 }
