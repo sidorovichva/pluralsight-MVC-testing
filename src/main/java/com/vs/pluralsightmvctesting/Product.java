@@ -1,9 +1,9 @@
 package com.vs.pluralsightmvctesting;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +17,7 @@ public class Product {
     @Id
     @GeneratedValue
     private Integer id;
+    @NonNull
     private String name;
     private Integer quantity;
     private Integer version;
